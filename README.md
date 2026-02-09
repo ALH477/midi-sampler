@@ -11,7 +11,7 @@ A professional, high-quality MIDI instrument sampler library written in C. Desig
   - Comprehensive error handling
   - Zero global state
 
-- **Real-Time Performance** 🚀
+- **Real-Time Performance** 
   - **Lock-free event queue** for zero-blocking audio thread
   - **Cache-aligned structures** for optimal CPU performance
   - **Pre-calculated lookup tables** (MIDI to frequency)
