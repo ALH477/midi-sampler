@@ -3,7 +3,7 @@
  * @brief Main sampler implementation
  */
 
-#include "internal.h"
+#include "internal/internal.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

@@ -10,7 +10,7 @@
  * - RT thread priority support
  */
 
-#include "internal_rt.h"
+#include "internal/internal_rt.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

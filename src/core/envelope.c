@@ -3,7 +3,7 @@
  * @brief ADSR envelope generator implementation
  */
 
-#include "internal.h"
+#include "internal/internal.h"
 #include <math.h>
 #include <string.h>
 

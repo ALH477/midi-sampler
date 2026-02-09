@@ -3,7 +3,7 @@
  * @brief Voice playback and management
  */
 
-#include "internal.h"
+#include "internal/internal.h"
 #include <math.h>
 #include <string.h>
 

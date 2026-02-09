@@ -1,0 +1,51 @@
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+simple_example
+rt_example
+midi_player
+
+# Build directories
+build/
+dist/
+.target/
+cmake-build-*/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Profiling
+*.gcno
+*.gcda
+*.gcov
+
+# Test output
+test_results/
+coverage/
+
+# Nix build artifacts
+result/
+result-*

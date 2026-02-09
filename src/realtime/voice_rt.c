@@ -10,7 +10,7 @@
  * - Branch prediction hints
  */
 
-#include "internal_rt.h"
+#include "internal/internal_rt.h"
 #include <math.h>
 #include <string.h>
 

@@ -3,7 +3,7 @@
  * @brief MIDI file parsing
  */
 
-#include "internal.h"
+#include "internal/internal.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -3,6 +3,14 @@
  * @brief Example MIDI file player
  */
 
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <getopt.h>
+#include <unistd.h>
+#include <time.h>
+
 #include "midi_sampler.h"
 #include <stdio.h>
 #include <stdlib.h>

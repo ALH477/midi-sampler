@@ -43,22 +43,22 @@ find_package(Threads REQUIRED)
 # Library sources - use RT-optimized versions if enabled
 if(ENABLE_RT_OPTIMIZATIONS)
     set(SOURCES
-        src/sampler_rt.c
-        src/envelope_rt.c
-        src/voice_rt.c
-        src/sample_loader.c
-        src/midi_parser.c
+        src/realtime/sampler_rt.c
+        src/realtime/envelope_rt.c
+        src/realtime/voice_rt.c
+        src/core/sample_loader.c
+        src/midi/midi_parser.c
     )
-    set(INTERNAL_HEADER src/internal_rt.h)
+    set(INTERNAL_HEADER src/internal/internal_rt.h)
 else()
     set(SOURCES
-        src/sampler.c
-        src/envelope.c
-        src/voice.c
-        src/sample_loader.c
-        src/midi_parser.c
+        src/core/sampler.c
+        src/core/envelope.c
+        src/core/voice.c
+        src/core/sample_loader.c
+        src/midi/midi_parser.c
     )
-    set(INTERNAL_HEADER src/internal.h)
+    set(INTERNAL_HEADER src/internal/internal.h)
 endif()
 
 # Create library
@@ -87,16 +87,7 @@ set_target_properties(midi_sampler PROPERTIES
 
 # Examples
 if(BUILD_EXAMPLES)
-    add_executable(simple_example examples/simple_example.c)
-    target_link_libraries(simple_example midi_sampler)
-    
-    add_executable(midi_player examples/midi_player.c)
-    target_link_libraries(midi_player midi_sampler)
-    
-    if(ENABLE_RT_OPTIMIZATIONS)
-        add_executable(rt_example examples/rt_example.c)
-        target_link_libraries(rt_example midi_sampler)
-    endif()
+    add_subdirectory(examples)
 endif()
 
 # Installation

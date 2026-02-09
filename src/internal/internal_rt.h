@@ -11,12 +11,14 @@
  */
 
 #ifndef MIDI_SAMPLER_INTERNAL_RT_H
+#define _GNU_SOURCE
 #define MIDI_SAMPLER_INTERNAL_RT_H
 
 #include "midi_sampler.h"
 #include <pthread.h>
 #include <stdatomic.h>
 #include <sched.h>
+#include <sys/mman.h>
 
 /* ============================================================================
  * Real-time Configuration
