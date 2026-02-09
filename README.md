@@ -402,7 +402,7 @@ Current version: 1.0.0
 
 ## Authors
 
-DeMoD LLC
+DeMoD LLC (utilized sonnet 4.5 & Big Pickle)
 
 ---
 
