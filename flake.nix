@@ -19,7 +19,6 @@
           "-ffast-math"           # Fast math (safe for audio)
           "-funroll-loops"        # Loop unrolling
           "-fomit-frame-pointer"  # Reduce overhead
-          "-pipe"                 # Faster compilation
           "-DNDEBUG"             # Disable assertions in release
         ];
 
@@ -32,7 +31,7 @@
           
           midi_sampler = pkgs.stdenv.mkDerivation {
             pname = "midi_sampler";
-            version = "1.0.0-rt";
+            version = "1.0.0";
 
             src = ./.;
 
@@ -42,23 +41,26 @@
             ];
 
             buildInputs = with pkgs; [
-              # Core dependencies
+              # Core dependencies for threading and math
+              # Note: libm is implicit with gcc/clang
             ];
 
             cmakeFlags = [
               "-DCMAKE_BUILD_TYPE=Release"
               "-DBUILD_EXAMPLES=ON"
               "-DBUILD_SHARED_LIBS=ON"
-              "-DCMAKE_C_FLAGS=${rtCFlags}"
               "-DENABLE_RT_OPTIMIZATIONS=ON"
             ];
 
+            # Set CFLAGS for RT optimizations
+            CFLAGS = "-O3 -march=native -mtune=native -ffast-math -funroll-loops -DNDEBUG";
+
             meta = with pkgs.lib; {
-              description = "High-quality MIDI sampler library optimized for real-time Linux";
-              homepage = "https://github.com/demod-llc/midi_sampler";
+              description = "High-quality MIDI sampler library optimized for real-time Linux with BORE/RT scheduler support";
+              homepage = "https://github.com/ALH477/midi-sampler";
               license = licenses.mit;
-              platforms = platforms.linux;
-              maintainers = [ ];
+              platforms = platforms.unix ++ [ "x86_64-windows" "x86_64-darwin" ];
+              maintainers = with pkgs.lib.maintainers; [ ashers ];
             };
           };
 
@@ -68,6 +70,38 @@
               "-DBUILD_SHARED_LIBS=OFF"
             ];
           });
+
+          # Standard build variant (no RT optimizations)
+          midi_sampler-standard = pkgs.stdenv.mkDerivation {
+            pname = "midi_sampler";
+            version = "1.0.0";
+
+            src = ./.;
+
+            nativeBuildInputs = with pkgs; [
+              cmake
+              pkg-config
+            ];
+
+            buildInputs = with pkgs; [
+              # Core dependencies for threading and math
+            ];
+
+            cmakeFlags = [
+              "-DCMAKE_BUILD_TYPE=Release"
+              "-DBUILD_EXAMPLES=ON"
+              "-DBUILD_SHARED_LIBS=ON"
+              "-DENABLE_RT_OPTIMIZATIONS=OFF"
+            ];
+
+            meta = with pkgs.lib; {
+              description = "High-quality MIDI sampler library (standard build)";
+              homepage = "https://github.com/ALH477/midi-sampler";
+              license = licenses.mit;
+              platforms = platforms.unix ++ [ "x86_64-windows" "x86_64-darwin" ];
+              maintainers = [ ];
+            };
+          };
 
           # Development shell tools
           rt-tools = pkgs.buildEnv {
@@ -216,11 +250,29 @@
           simple_example = {
             type = "app";
             program = "${self.packages.${system}.midi_sampler}/bin/simple_example";
+            meta = with pkgs.lib; {
+              description = "Simple MIDI sampler example demonstrating basic functionality";
+            };
           };
           
           midi_player = {
             type = "app";
             program = "${self.packages.${system}.midi_sampler}/bin/midi_player";
+            meta = with pkgs.lib; {
+              description = "MIDI file player example using the MIDI sampler library";
+            };
+          };
+          
+          rt_example = {
+            type = "app";
+            program = "${pkgs.writeShellScriptBin "rt_example" ''
+              export RT_PRIO=80
+              echo "🚀 Running RT Example with priority 80"
+              chrt -f 80 ${self.packages.${system}.midi_sampler}/bin/rt_example "$@"
+            ''}/bin/rt_example";
+            meta = with pkgs.lib; {
+              description = "Real-time optimized example with performance monitoring and RT priority";
+            };
           };
         };
 
